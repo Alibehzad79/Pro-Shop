@@ -1,0 +1,279 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <div role="main" class="main shop py-4">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+
+                    <div class="owl-carousel owl-theme owl-loaded owl-drag owl-carousel-init"
+                         data-plugin-options="{'items': 1}" style="height: auto;">
+
+
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage"
+                                 style="transform: translate3d(-900px, 0px, 0px); transition: all 0s ease 0s; width: 3150px;">
+                                <div class="owl-item cloned active" style="width: 450px;">
+                                    <div>
+                                        <img alt="" class="img-fluid" src="{{ product.image.url }}">
+                                    </div>
+                                </div>
+                                {% for gallery in galleries %}
+                                    <div class="owl-item cloned" style="width: 450px;">
+                                    <div>
+                                        <img alt="{{ gallery.title }}" class="img-fluid" src="{{ gallery.image.url }}">
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+
+                            </div>
+                        </div>
+                        <div class="owl-nav disabled">
+                            <button type="button" role="presentation" class="owl-prev"></button>
+                            <button type="button" role="presentation" class="owl-next"></button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="summary entry-summary">
+
+                        <h1 class="mb-0 font-weight-bold text-7">{{ product.title }}</h1>
+
+                        <div class="pb-0 clearfix">
+
+                            <div class="review-num">
+                                <span class="count" itemprop="ratingCount">{{ product.visit_count }}</span> visit
+                            </div>
+                        </div>
+
+                        <p class="price">
+                            {% if product.is_discount %}
+                                <ins class="text-decoration-none"><span
+                                        class="amount text-dark font-weight-semibold">${{ product.price_discount }}</span>
+                                    <del class="text-1"><span class="amount text-1">${{ product.price }}</span></del>
+                                </ins>
+                            {% else %}
+                                <ins class="text-decoration-none"><span
+                                        class="amount text-dark font-weight-semibold">${{ product.price }}</span>
+                                </ins>
+                            {% endif %}
+                        </p>
+
+                        <p class="mb-4">{{ product.description }} </p>
+
+                        <form action="/add-user-order" enctype="multipart/form-data" method="post" class="cart">
+                            {% csrf_token %}
+                            {{ user_order_form.productId }}
+                            {{ user_order_form.count }}
+                            <button type="submit" class="btn btn-primary btn-modern text-uppercase">Add to cart</button>
+                        </form>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="tabs tabs-product mb-2">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item active"><a class="nav-link py-3 px-4" href="#productDescription"
+                                                           data-toggle="tab">Description</a></li>
+                            <li class="nav-item"><a class="nav-link py-3 px-4" href="#productInfo" data-toggle="tab">Additional
+                                Information</a></li>
+                            <li class="nav-item"><a class="nav-link py-3 px-4" href="#productReviews" data-toggle="tab">Comments
+                            </a></li>
+                        </ul>
+                        <div class="tab-content p-0">
+                            <div class="tab-pane p-4 active" id="productDescription">
+                                <p>
+                                    {{ product.description }}
+                                </p>
+                            </div>
+                            <div class="tab-pane p-4" id="productInfo">
+                                <table class="table m-0">
+                                    <tbody>
+                                    <tr>
+                                        <th class="border-top-0">
+                                            Size:
+                                        </th>
+                                        <td class="border-top-0">
+                                            {{ product.size }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Colors
+                                        </th>
+                                        <td>
+                                            {{ product.color }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Material
+                                        </th>
+                                        <td>
+                                            {{ product.material }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Made In
+                                        </th>
+                                        <td>
+                                            {{ product.made_in.name }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane p-4" id="productReviews">
+                                <ul class="comments">
+                                    <li>
+                                       {% for comment in comments %}
+                                             <div class="comment">
+                                            <div class="comment-block">
+                                                <div class="comment-arrow"></div>
+                                                <span class="comment-by">
+															<strong>{{ comment.name }}</strong>
+															<span class="float-right">
+																<div class="pb-0 clearfix">
+
+																</div>
+															</span>
+														</span>
+                                                <p>{{ comment.text }}</p>
+                                            </div>
+                                        </div>
+                                       {% endfor %}
+
+                                    </li>
+
+                                </ul>
+                                <hr class="solid my-5">
+                                <h4>Add a comment</h4>
+                                <div class="row">
+                                    <div class="col">
+
+                                        <form id="submitReview" method="post">
+                                            {% csrf_token %}
+                                            {{ comment_form.productId }}
+                                            <div class="form-row">
+                                                <div class="form-group col-lg-6">
+                                                    <label class="required font-weight-bold text-dark">{{ comment_form.name.label }}</label>
+                                                    {{ comment_form.name }}
+                                                    {% for error in comment_form.name.errors %}
+                                                        <p class="alert alert-danger">{{ error }}</p>
+                                                    {% endfor %}
+
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <label class="required font-weight-bold text-dark">{{ comment_form.email.label }}</label>
+                                                    {{ comment_form.email }}
+                                                    {% for error in comment_form.email.errors %}
+                                                        <p class="alert alert-danger">{{ error }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col">
+                                                    <label class="required font-weight-bold text-dark">{{ comment_form.text.label }}</label>
+                                                    {{ comment_form.text }}
+                                                    {% for error in comment_form.text.errors %}
+                                                        <p class="alert alert-danger">{{ error }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col mb-0">
+                                                    <input type="submit" value="Post Comment"
+                                                           class="btn btn-primary btn-modern"
+                                                           data-loading-text="Loading...">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <hr class="solid my-5">
+
+                    <h4 class="mb-3">Related <strong>Products</strong></h4>
+                    <div class="row">
+                        <div class="col">
+
+                            <div class="my-4 lightbox appear-animation" data-appear-animation="fadeInUpShorter"
+                                 data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
+                                <div class="owl-carousel owl-theme pb-3"
+                                     data-plugin-options="{'margin': 35, 'loop': false}">
+
+                                    {% for product_list in related_product %}
+                                        {% for product in product_list %}
+                                            <div class="portfolio-item">
+
+                                    <span class="thumb-info thumb-info-lighten thumb-info-no-borders thumb-info-bottom-info thumb-info-centered-icons border-radius-0">
+                                                    <span class="thumb-info-wrapper border-radius-0">
+												<img src="{{ product.image.url }}"
+                                                     class="img-fluid border-radius-0"
+                                                     alt="">
+												<span class="thumb-info-title">
+													<span class="thumb-info-inner line-height-1 font-weight-bold text-dark position-relative top-3">
+                                                        <a
+                                                                href="{{ product.absolute_product_url }}">{{ product.title }}
+                                                        </a>
+                                                    </span>
+                                                    {% if product.is_discount %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price_discount }}</span>
+                    <del class="text-1"><span class="amount text-1">${{ product.price }}</span></del>
+                </ins>
+                                                    {% else %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price }}</span>
+                </ins>
+                                                    {% endif %}
+												</span>
+												<span class="thumb-info-action">
+													<a href="{{ product.absolute_product_url }}">
+														<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i
+                                                                class="fas fa-link"></i></span>
+													</a>
+												</span>
+											</span>
+										</span>
+
+
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+
+                            <hr class="solid my-5">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

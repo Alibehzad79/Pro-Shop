@@ -1,0 +1,119 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <div role="main" class="main">
+
+        <section class="page-header page-header-classic page-header-sm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 order-2 order-md-1 align-self-center p-static">
+                        <span class="page-header-title-border visible" style="width: 85.3833px;"></span>
+                        <span class="page-header-title-border visible" style="width: 85.3833px;"></span>
+                        <h1 data-title-border="">Contact Us</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+
+            <div class="row py-4">
+                <div class="col-lg-6">
+
+                    <div class="overflow-hidden mb-1">
+                        <h2 class="font-weight-normal text-7 mt-2 mb-0 appear-animation animated maskUp appear-animation-visible"
+                            data-appear-animation="maskUp" data-appear-animation-delay="200"
+                            style="animation-delay: 200ms;"><strong class="font-weight-extra-bold">Contact</strong> Us
+                        </h2>
+                    </div>
+
+
+                    <form id="contactForm" class="contact-form" method="POST"
+                          novalidate="novalidate">
+                        {% csrf_token %}
+
+
+                        <div class="form-row">
+                            <div class="form-group col-lg-6">
+                                <label class="required font-weight-bold text-dark text-2">{{ contact_us_form.full_name.label }}</label>
+                                {{ contact_us_form.full_name }}
+                                {% for error in contact_us_form.full_name.errors %}
+                                    <p class="alert alert-danger">{{ error }}</p>
+                                {% endfor %}
+
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="required font-weight-bold text-dark text-2">{{ contact_us_form.email.label }}</label>
+                                {{ contact_us_form.email }}
+                                {% for error in contact_us_form.email.errors %}
+                                    <p class="alert alert-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="required font-weight-bold text-dark text-2">{{ contact_us_form.subject.label }}</label>
+                                {{ contact_us_form.subject }}
+                                {% for error in contact_us_form.subject.errors %}
+                                    <p class="alert alert-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="required font-weight-bold text-dark text-2">{{ contact_us_form.message.label }}</label>
+                                {{ contact_us_form.message }}
+                                {% for error in contact_us_form.message.errors %}
+                                    <p class="alert alert-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <input type="submit" value="Send Message" class="btn btn-primary btn-modern"
+                                       data-loading-text="Loading...">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-lg-6">
+
+                    <div class="appear-animation animated fadeIn appear-animation-visible"
+                         data-appear-animation="fadeIn" data-appear-animation-delay="800"
+                         style="animation-delay: 800ms;">
+                        <h4 class="mt-2 mb-1">Our <strong>Office</strong></h4>
+                        <ul class="list list-icons list-icons-style-2 mt-2">
+                            <li><i class="fas fa-map-marker-alt top-6"></i> <strong class="text-dark">Address:</strong>
+                                {{ setting.address }}
+                            </li>
+                            <li><i class="fas fa-phone top-6"></i> <strong class="text-dark">Phone:</strong> {{ setting.phone }}
+                            </li>
+                            <li><i class="fas fa-envelope top-6"></i> <strong class="text-dark">Email:</strong> <a
+                                    href="mailto:{{ setting.email }}">{{ setting.email }}</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="appear-animation animated fadeIn appear-animation-visible"
+                         data-appear-animation="fadeIn" data-appear-animation-delay="950"
+                         style="animation-delay: 950ms;">
+                        <h4 class="pt-5">Business <strong>Hours</strong></h4>
+                        <ul class="list list-icons list-dark mt-2">
+                            {% for business in business_hours %}
+                                <li><i class="far fa-clock top-6"></i> {{ business.text }}</li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <h4 class="pt-5">Get in <strong>Touch</strong></h4>
+                    <p class="lead mb-0 text-4">{{ setting.get_in_touch_text }}</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

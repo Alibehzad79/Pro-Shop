@@ -1,0 +1,198 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <div role="main" class="main shop py-4">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+
+                    <div class="accordion accordion-modern" id="accordion">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h4 class="card-title m-0">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse"
+                                       data-parent="#accordion" href="#collapseOne" aria-expanded="false">
+                                        Billing Address
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="collapse" style="">
+                                <div class="card-body">
+                                    <form action="/" id="frmBillingAddress" method="post">
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label class="font-weight-bold text-dark text-2">Country</label>
+                                                {% comment %}<select class="form-control">
+															<option value="">Select a country</option>
+														</select>{% endcomment %}
+                                                <input type="text" value="" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-lg-6">
+                                                <label class="font-weight-bold text-dark text-2">First Name</label>
+                                                <input type="text" value="" class="form-control">
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="font-weight-bold text-dark text-2">Last Name</label>
+                                                <input type="text" value="" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label class="font-weight-bold text-dark text-2">Company Name</label>
+                                                <input type="text" value="" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label class="font-weight-bold text-dark text-2">Address </label>
+                                                <input type="text" value="" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label class="font-weight-bold text-dark text-2">City </label>
+                                                <input type="text" value="" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <input type="submit" value="Continue"
+                                                       class="btn btn-xl btn-light pr-4 pl-4 text-2 font-weight-semibold text-uppercase float-right mb-2"
+                                                       data-loading-text="Loading...">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if order != None and details|length > 0 %}
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h4 class="card-title m-0">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false">
+                                            Review &amp; Payment
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="collapse" style="">
+                                    <div class="card-body">
+                                        <table class="shop_table cart">
+                                            <thead>
+                                            <tr>
+                                                <th class="product-thumbnail">
+                                                    &nbsp;
+                                                </th>
+                                                <th class="product-name">
+                                                    Product
+                                                </th>
+                                                <th class="product-price">
+                                                    Price
+                                                </th>
+                                                <th class="product-quantity">
+                                                    Quantity
+                                                </th>
+                                                <th class="product-subtotal">
+                                                    Total
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            {% for detail in details %}
+                                                <tbody>
+                                                <tr class="cart_table_item">
+                                                    <td class="product-thumbnail">
+                                                        <a href="{{ detail.product.absolute_product_url }}">
+                                                            <img alt="{{ detail.product.title }}" class="img-fluid"
+                                                                 src="{{ detail.product.image.url }}" width="100"
+                                                                 height="100">
+                                                        </a>
+                                                    </td>
+                                                    <td class="product-name">
+                                                        <a href="{{ detail.product.absolute_product_url }}">{{ detail.product.title }}</a>
+                                                    </td>
+                                                        <td class="product-price">
+                                                            <span class="amount">${{ detail.product.price }}</span>
+                                                        </td>
+                                                        <td class="product-quantity">
+                                                            {{ detail.count }}
+                                                        </td>
+                                                        <td class="product-subtotal">
+                                                            <span class="amount">${{ detail.price_total }}</span>
+                                                        </td>
+                                                </tr>
+                                                </tbody>
+                                            {% endfor %}
+
+                                        </table>
+
+                                        {% comment %}<hr class="solid my-5">{% endcomment %}
+
+                                        {% comment %}<hr class="solid my-5">{% endcomment %}
+
+                                        {% comment %}<h4 class="text-primary">Payment</h4>
+
+											<form action="/" id="frmPayment" method="post">
+												<div class="form-row">
+													<div class="form-group col">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="paymentdirectbank">
+															<label class="custom-control-label" for="paymentdirectbank">Direct Bank Transfer</label>
+														</div>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="form-group col">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="paymentcheque">
+															<label class="custom-control-label" for="paymentcheque">Cheque Payment</label>
+														</div>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="form-group col">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="paymentpaypal">
+															<label class="custom-control-label" for="paymentpaypal">Paypal</label>
+														</div>
+													</div>
+												</div>
+											</form>{% endcomment %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="actions-continue">
+                        <a href=""><input type="submit" value="the payment" name="proceed"
+                                          class="btn btn-primary btn-modern text-uppercase mt-5 mb-5 mb-lg-0"></a>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <h4 class="text-primary">Cart Totals</h4>
+                    <table class="cart-totals">
+                        <tbody>
+                            <tr class="total">
+                            <th>
+                                <strong class="text-dark">Order Total</strong>
+                            </th>
+                            <td>
+                                <strong class="text-dark"><span class="amount">${{ total }}</span></strong>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% load render_partial %}
+<div class="col-sm-4 product mb-0" style="position: absolute; left: 0px; top: 0px;">
+										<span class="product-thumb-info border-0">
+											<a href="shop-cart.html" class="add-to-cart-product bg-color-primary">
+												<span class="text-uppercase text-1">Add to Cart</span>
+											</a>
+											<a href="">
+												<span class="product-thumb-info-image">
+													<a href="{{ product.absolute_product_url }}"><img alt=""
+                                                                                                      class="img-fluid"
+                                                                                                      src="{{ product.image.url }}"></a>
+												</span>
+											</a>
+										</span>
+</div>
+
+
+<div class="col-sm-8" style="position: absolute; left: 320px; top: 0px;">
+    <div class="summary entry-summary">
+
+        <a href="{{ product.absolute_product_url }}"><h1
+                class="mb-0 font-weight-bold text-7">{{ product.title }}</h1></a>
+
+        <div class="pb-0 clearfix">
+
+        </div>
+
+        <p class="price">
+            {% if product.is_discount %}
+                <ins class="text-decoration-none"><span
+                        class="amount text-dark font-weight-semibold">${{ product.price_discount }}</span>
+                    <del class="text-1"><span class="amount text-1">${{ product.price }}</span></del>
+                </ins>
+            {% else %}
+                <ins class="text-decoration-none"><span
+                        class="amount text-dark font-weight-semibold">${{ product.price }}</span>
+                </ins>
+            {% endif %}
+
+        </p>
+
+        <p class="mb-4">{{ product.description }}</p>
+        <div class="product-meta">
+        </div>
+    </div>
+    <br>
+    <a href="{{ product.absolute_product_url }}">
+        <button class="btn btn-dark-scale-2">more</button>
+    </a>
+</div>
+
+
+<div class="col" style="position: absolute; left: 0px; top: 290px;">
+    <hr class="my-5">
+</div>

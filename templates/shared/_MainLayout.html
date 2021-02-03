@@ -1,0 +1,41 @@
+{% load static %}
+{% load render_partial %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Basic -->
+    {% render_partial 'pro_shop.views.meta' %}
+
+    <!-- Favicon -->
+    {% include 'shared/_HeaderReferenced.html' %}
+</head>
+<body class="loading-overlay-showing" data-plugin-page-transition data-loading-overlay
+      data-plugin-options="{'hideDelay': 500}">
+<div class="loading-overlay">
+    <div class="bounce-loader">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+
+<div class="body">
+    {% render_partial 'pro_shop.views.header' %}
+    <div role="main" class="main">
+
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    {% render_partial 'pro_shop.views.footer' %}
+</div>
+
+<!-- Vendor -->
+{% include 'shared/_FooterReferenced.html' %}
+
+</body>
+</html>
+

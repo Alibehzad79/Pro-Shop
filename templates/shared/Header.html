@@ -1,0 +1,179 @@
+{% load render_partial %}
+{% load static %}
+<header id="header" class="header-effect-shrink"
+        data-plugin-options="{'stickyEnabled': true, 'stickyEffect': 'shrink', 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyChangeLogo': true, 'stickyStartAt': 120, 'stickyHeaderContainerHeight': 70}">
+    <div class="header-body border-color-primary header-body-bottom-border">
+        <div class="header-top header-top-default border-bottom-0">
+            <div class="container">
+                <div class="header-row py-2">
+                    {% if request.user.is_authenticated %}
+                        <div class="header-column justify-content-start">
+                            <div class="header-row">
+                                <nav class="header-nav-top">
+                                    <ul class="nav nav-pills text-uppercase text-2">
+                                        <li class="nav-item nav-item-anim-icon d-none d-md-block">
+                                            <a class="nav-link pl-0" href="/user-panel"><i
+                                                    class="fas fa-angle-right"></i>
+                                                User Panel</a>
+                                        </li>
+                                        <li class="nav-item nav-item-anim-icon d-none d-md-block">
+                                            <a class="nav-link" href="/order-panel"><i class="fas fa-angle-right"></i>
+                                                Cart</a>
+                                        </li>
+                                        <li class="nav-item nav-item-anim-icon d-none d-md-block">
+                                            <a class="nav-link" href="/log-out"><i class="fas fa-angle-right"></i>
+                                                Exit</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="header-column justify-content-start">
+                            <div class="header-row">
+                                <nav class="header-nav-top">
+                                    <ul class="nav nav-pills text-uppercase text-2">
+                                        <li class="nav-item nav-item-anim-icon d-none d-md-block">
+                                            <a class="nav-link pl-0" href="/login"><i class="fas fa-angle-right"></i>
+                                                Login</a>
+                                        </li>
+                                        <li class="nav-item nav-item-anim-icon d-none d-md-block">
+                                            <a class="nav-link" href="/register"><i class="fas fa-angle-right"></i>
+                                                Register</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="header-column justify-content-end">
+                        <div class="header-row">
+                            <nav class="header-nav-top">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a href="mailto:{{ setting.email }}"><i
+                                                class="far fa-envelope text-4 text-color-primary" style="top: 1px;"></i>
+                                            {{ setting.email }}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="tel:{{ setting.phone }}"><i
+                                                class="fab fa-whatsapp text-4 text-color-primary"
+                                                style="top: 0;"></i> {{ setting.phone }}</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-container container">
+            <div class="header-row">
+                <div class="header-column">
+                    <div class="header-row">
+                        <div class="header-logo">
+                            <a href="/">
+                                <img alt="Porto" width="150" height="70" src="{{ setting.site_logo.url }}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-column justify-content-end">
+                    <div class="header-row">
+                        <div class="header-nav header-nav-links order-2 order-lg-1">
+                            <div class="header-nav-main header-nav-main-square header-nav-main-effect-2 header-nav-main-sub-effect-1">
+                                <nav class="collapse">
+                                    <ul class="nav nav-pills" id="mainNav">
+                                        <li class="menu">
+                                            <a class="menu-item" href="/">
+                                                Home
+                                            </a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-divider" href="#">
+                                                Shop
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="/products">All
+                                                    products
+                                                </a></li>
+                                                <li><a class="dropdown-item" href="/products/latest">Latest
+                                                    products
+                                                </a></li>
+                                                <li><a class="dropdown-item" href="/products/discount">Discounted
+                                                    products
+                                                </a></li>
+                                                <li><a class="dropdown-item" href="/products/popular">The most popular
+                                                    products
+                                                </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-divider" href="#">
+                                                Categories
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                {% for category in categories %}
+                                                    <li><a class="dropdown-item"
+                                                           href="/products/search/?q={{ category.title_in_url }}">
+                                                        {{ category.title }}
+                                                    </a></li>
+                                                {% endfor %}
+
+                                            </ul>
+                                        </li>
+                                        <li class="menu">
+                                            <a class="menu-item" href="/blog">
+                                                Blog
+                                            </a>
+                                        </li>
+                                        <li class="menu">
+                                            <a class="menu-item" href="/about-us">
+                                                About Us
+                                            </a>
+                                        </li>
+                                        <li class="menu">
+                                            <a class="menu-item" href="/contact-us">
+                                                Contact Us
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <ul class="header-social-icons social-icons d-none d-sm-block">
+                                {% for network in networks %}
+                                    <li class="social-icons-{{ network.title }}"><a href="{{ network.link }}"
+                                                                                    target="_blank"
+                                                                                    title="{{ network.title }}"><i
+                                            class="fab fa-{{ network.title }}"></i></a>
+                                    </li>
+                                {% endfor %}
+
+                            </ul>
+                            <button class="btn header-btn-collapse-nav" data-toggle="collapse"
+                                    data-target=".header-nav-main nav">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </div>
+                        <div class="header-nav-features header-nav-features-no-border header-nav-features-lg-show-border order-1 order-lg-2">
+                            <div class="header-nav-feature header-nav-features-search d-inline-flex">
+                                <a href="#" class="header-nav-features-toggle" data-focus="headerSearch"><i
+                                        class="fas fa-search header-nav-top-icon"></i></a>
+                                <div class="header-nav-features-dropdown" id="headerTopSearchDropdown">
+                                    {% include 'shared/search.html' %}
+                                </div>
+                            </div>
+                            <div class="header-nav-feature header-nav-features-cart d-inline-flex ml-2">
+                                <a href="/order-panel">
+                                    <img src="{% static 'img/icons/icon-cart.svg' %}" width="14" alt="order"
+                                         class="header-nav-top-icon-img">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

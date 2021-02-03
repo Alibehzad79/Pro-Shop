@@ -1,0 +1,11 @@
+<form role="search" action="/products/search" method="get">
+    <div class="simple-search input-group">
+        <input class="form-control text-1" id="headerSearch" name="q" type="search"
+               value="{{ request.GET.q }}" placeholder="Search...">
+        <span class="input-group-append">
+															<button class="btn" type="submit">
+																<i class="fa fa-search header-nav-top-icon"></i>
+															</button>
+														</span>
+    </div>
+</form>

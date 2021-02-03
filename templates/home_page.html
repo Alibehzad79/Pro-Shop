@@ -1,0 +1,309 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="slider-container rev_slider_wrapper" style="height: 600px;">
+        <div id="revolutionSlider" class="slider rev_slider" data-version="5.4.8" data-plugin-revolution-slider
+             data-plugin-options="{'delay': 9000, 'gridwidth': 1170, 'gridheight': 600, 'disableProgressBar': 'on', 'responsiveLevels': [4096,1200,992,500], 'parallax': { 'type': 'scroll', 'origo': 'enterpoint', 'speed': 1000, 'levels': [2,3,4,5,6,7,8,9,12,50], 'disable_onmobile': 'on' }, 'navigation' : {'arrows': { 'enable': false }, 'bullets': {'enable': true, 'style': 'bullets-style-1', 'h_align': 'center', 'v_align': 'bottom', 'space': 7, 'v_offset': 70, 'h_offset': 0}}}">
+
+            <ul>
+                {% for slider in sliders %}
+                    <li class="slide-overlay slide-overlay-primary" data-transition="fade">
+                        <img src="{{ slider.image.url }}"
+                             alt=""
+                             data-bgposition="center center"
+                             data-bgfit="cover"
+                             data-bgrepeat="no-repeat"
+                             class="rev-slidebg">
+
+                        <h1 class="tp-caption font-weight-extra-bold text-color-light negative-ls-2"
+                            data-frames='[{"delay":1000,"speed":2000,"frame":"0","from":"sX:1.5;opacity:0;fb:20px;","to":"o:1;fb:0;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                            data-x="center"
+                            data-y="center"
+                            data-fontsize="['50','50','50','90']"
+                            data-lineheight="['55','55','55','95']">{{ slider.title }}</h1>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+                        <div class="tp-caption text-light font-weight-light"
+                             data-frames='[{"from":"opacity:0;","speed":300,"to":"o:1;","delay":2000,"split":"chars","splitdelay":0.05,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'
+                             data-x="center"
+                             data-y="center" data-voffset="['40','40','40','80']"
+                             data-fontsize="['18','18','18','50']"
+                             data-lineheight="['20','20','20','55']">{{ slider.description|truncatechars:100 }}
+
+
+                        </div>
+                        <div style="text-align: center">
+                            <div class="col-lg-6">
+
+                                <a href="{{ slider.link }}" target="_blank">
+                                    <button type="button"
+                                            class="btn btn-outline btn-rounded btn-quaternary  btn-with-arrow mb-2">more<span><i
+                                            class="fas fa-chevron-right"></i></span></button>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <div class="container">
+        <div class="row">
+            <a href="/products/latest">
+                <button type="button" class="btn btn-gradient">Latest Products</button>
+            </a>
+            <div class="col">
+
+                <div class="my-4 lightbox appear-animation" data-appear-animation="fadeInUpShorter"
+                     data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
+                    <div class="owl-carousel owl-theme pb-3"
+                         data-plugin-options="{'margin': 35, 'loop': false}">
+
+                        {% for product_list in latest_product %}
+                            {% for product in product_list %}
+                                <div class="portfolio-item">
+
+                                    <span class="thumb-info thumb-info-lighten thumb-info-no-borders thumb-info-bottom-info thumb-info-centered-icons border-radius-0">
+                                                    <span class="thumb-info-wrapper border-radius-0">
+												<img src="{{ product.image.url }}"
+                                                     class="img-fluid border-radius-0"
+                                                     alt="">
+												<span class="thumb-info-title">
+													<span class="thumb-info-inner line-height-1 font-weight-bold text-dark position-relative top-3">
+                                                        <a
+                                                                href="{{ product.absolute_product_url }}">{{ product.title }}
+                                                        </a>
+                                                    </span>
+                                                    {% if product.is_discount %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price_discount }}</span>
+                    <del class="text-1"><span class="amount text-1">${{ product.price }}</span></del>
+                </ins>
+                                                    {% else %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price }}</span>
+                </ins>
+                                                    {% endif %}
+												</span>
+												<span class="thumb-info-action">
+													<a href="{{ product.absolute_product_url }}">
+														<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i
+                                                                class="fas fa-link"></i></span>
+													</a>
+												</span>
+											</span>
+										</span>
+
+
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <hr class="solid my-5">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <a href="/products/discount">
+                <button type="button" class="btn btn-gradient">Discounted products</button>
+            </a>
+            <div class="col">
+
+                <div class="my-4 lightbox appear-animation" data-appear-animation="fadeInUpShorter"
+                     data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
+                    <div class="owl-carousel owl-theme pb-3"
+                         data-plugin-options="{'margin': 35, 'loop': false}">
+
+                        {% for productlist in popular_product %}
+                            {% for product in productlist %}
+                                <div class="portfolio-item">
+										<span class="thumb-info thumb-info-lighten thumb-info-no-borders thumb-info-bottom-info thumb-info-centered-icons border-radius-0">
+											<span class="thumb-info-wrapper border-radius-0">
+												<img src="{{ product.image.url }}"
+                                                     class="img-fluid border-radius-0"
+                                                     alt="">
+												<span class="thumb-info-title">
+													<span class="thumb-info-inner line-height-1 font-weight-bold text-dark position-relative top-3">
+                                                        <a
+                                                                href="{{ product.absolute_product_url }}">{{ product.title }}
+                                                        </a>
+                                                    </span>
+                                                    {% if product.is_discount %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price_discount }}</span>
+                    <del class="text-1"><span class="amount text-1">${{ product.price }}</span></del>
+                </ins>
+                                                    {% else %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price }}</span>
+                </ins>
+                                                    {% endif %}
+												</span>
+												<span class="thumb-info-action">
+													<a href="{{ product.absolute_product_url }}">
+														<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i
+                                                                class="fas fa-link"></i></span>
+													</a>
+												</span>
+											</span>
+										</span>
+                                </div>
+                            {% endfor %}
+
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+
+                <hr class="solid my-5">
+
+            </div>
+        </div>
+        <div class="row">
+            <a href="/products/popular">
+                <button type="button" class="btn btn-gradient">The most popular products</button>
+            </a>
+            <div class="col">
+
+                <div class="my-4 lightbox appear-animation" data-appear-animation="fadeInUpShorter"
+                     data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
+                    <div class="owl-carousel owl-theme pb-3"
+                         data-plugin-options="{'margin': 35, 'loop': false}">
+
+                        {% for productLIST in discount_product %}
+                            {% for product in productLIST %}
+                                <div class="portfolio-item">
+										<span class="thumb-info thumb-info-lighten thumb-info-no-borders thumb-info-bottom-info thumb-info-centered-icons border-radius-0">
+											<span class="thumb-info-wrapper border-radius-0">
+												<img src="{{ product.image.url }}"
+                                                     class="img-fluid border-radius-0"
+                                                     alt="">
+												<span class="thumb-info-title">
+													<span class="thumb-info-inner line-height-1 font-weight-bold text-dark position-relative top-3">
+                                                        <a
+                                                                href="{{ product.absolute_product_url }}">{{ product.title }}
+                                                        </a>
+                                                    </span>
+                                                    {% if product.is_discount %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price_discount }}</span>
+                    <del class="text-1"><span class="amount text-1">${{ product.price }}</span></del>
+                </ins>
+                                                    {% else %}
+                                                        <ins class="text-decoration-none"><span
+                                                                class="amount text-dark font-weight-semibold">${{ product.price }}</span>
+                </ins>
+                                                    {% endif %}
+												</span>
+												<span class="thumb-info-action">
+													<a href="{{ product.absolute_product_url }}">
+														<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i
+                                                                class="fas fa-link"></i></span>
+													</a>
+												</span>
+											</span>
+										</span>
+                                </div>
+                            {% endfor %}
+
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+
+                <hr class="solid my-5">
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <section
+            class="video section section-height-3 section-text-light section-video section-center overlay overlay-show overlay-op-7 mt-0"
+            data-video-path="video/dark" data-plugin-video-background
+            data-plugin-options="{'posterType': 'jpg', 'position': '50% 50%', 'overlay': true}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="testimonial testimonial-style-2 testimonial-with-quotes testimonial-remove-right-quote mb-0">
+                        <blockquote>
+                            <p class="mb-0">{{ contact_us.message }}</p>
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <p class="text-2">{{ contact_us.full_name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container pt-2">
+        <button type="button" class="btn btn-gradient">The recent blog</button>
+        <br><br>
+        <div class="row pb-5">
+            {% for latest in latest_blog %}
+                <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 appear-animation" data-appear-animation="fadeInRightShorter">
+							<span class="thumb-info thumb-info-hide-wrapper-bg">
+								<span class="thumb-info-wrapper">
+									<a href="{{ latest.get_blog_url }}">
+										<img src="{{ latest.image.url }}" class="img-fluid" alt="{{ latest.title }}">
+										<span class="thumb-info-title">
+											<span class="thumb-info-inner">{{ latest.author.first_name }}</span>
+                                            <span class="thumb-info-type">{{ latest.author.last_name }}</span>
+										</span>
+									</a>
+								</span>
+								<span class="thumb-info-caption">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2"><a
+                                            href="{{ latest.get_blog_url }}">{{ latest.title }}</a></h2>
+									<span class="thumb-info-caption-text">{{ latest.description|truncatechars:100 }}</span>
+									<a href="{{ latest.get_blog_url }}"><button
+                                            class="btn btn-gradient">more</button></a>
+								</span>
+							</span>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {% if not request.user.is_authenticated %}
+        <section
+            class="call-to-action call-to-action-default with-button-arrow content-align-center call-to-action-in-footer call-to-action-in-footer-margin-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-lg-9">
+                    <div class="call-to-action-content">
+                        <h2 class="title">Become a member of our family right now !</h2>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                    <div class="call-to-action-btn">
+                        <a href="/register"
+                           class="btn btn-dark btn-lg text-3 font-weight-semibold px-4 py-3">Let's go</a><span
+                            class="arrow hlb d-none d-md-block" data-appear-animation="rotateInUpLeft"
+                            style="top: -40px; left: 70%;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+{% endblock %}
