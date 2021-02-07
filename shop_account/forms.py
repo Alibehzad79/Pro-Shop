@@ -15,8 +15,22 @@ class EditProfileForm(forms.Form):
     )
 
 
-class MyChangeFormPassword(PasswordChangeForm):
-    pass
+class MyChangeFormPassword(forms.Form):
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Please Enter your Password", "class": "form-control form-control"}),
+        label="Password",
+        validators=[
+            validators.MinLengthValidator(6, "The password can not be less than 6 characters."),
+            validators.MaxLengthValidator(12, "The password can not be more than 12 characters.")
+        ]
+    )
+    re_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Please Enter your Password again", "class": "form-control form-control"}),
+        label="Password again"
+    )
+
 
 
 class LoginForm(forms.Form):
