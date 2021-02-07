@@ -84,9 +84,11 @@ def edit_profile(request):
 @login_required(login_url="/login")
 def edit_password(request):
     user_id = request.user.id
-    form_change_password = MyChangeFormPassword(user_id)
+    form_change_password = MyChangeFormPassword(request.POST or None)
     if form_change_password.is_valid():
-        form_change_password.save()
+        password = form_change_password.cleaned_data.get("password")
+        user.set_password(raw_password=password)
+        user.save()
         return redirect("/user-panel")
     context = {
         "form_edit_password": form_change_password
