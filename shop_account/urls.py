@@ -1,6 +1,6 @@
 from django.urls import path
 
-from shop_account.views import login_page, register_page, log_out, user_panel, edit_profile, edit_password
+from shop_account.views import login_page, register_page, log_out, edit_password, edit_profile, user_panel
 
 urlpatterns = [
     path("login", login_page),

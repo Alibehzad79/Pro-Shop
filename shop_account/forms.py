@@ -1,18 +1,31 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core import validators
+from django.forms import TextInput, EmailInput, NumberInput, ImageField, URLInput
+
+from shop_account.models import UserProfile
 
 
-class EditProfileForm(forms.Form):
-    first_name = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control form-control-lg"}),
-        label="First Name"
-    )
-    last_name = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control form-control-lg"}),
-        label="Last Name"
-    )
+class EditUser(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name")
+        widgets = {
+            'first_name': TextInput(attrs={'class': "form-control"}),
+            'last_name': TextInput(attrs={'class': "form-control"}),
+        }
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ("age", "about_me", "web_site", "image")
+        widgets = {
+            'age': NumberInput(attrs={'class': "form-control"}),
+            'about_me': TextInput(attrs={'class': "form-control"}),
+            'web_site': URLInput(attrs={'class': "form-control"}),
+            # class="profile-image-inner-container bg-color-primary"
+        }
 
 
 class MyChangeFormPassword(forms.Form):
@@ -31,6 +44,12 @@ class MyChangeFormPassword(forms.Form):
         label="Password again"
     )
 
+    def clean_re_password(self):
+        password = self.cleaned_data.get("password")
+        re_password = self.cleaned_data.get("re_password")
+        if password != re_password:
+            raise forms.ValidationError("Passwords are different.")
+        return password
 
 
 class LoginForm(forms.Form):
